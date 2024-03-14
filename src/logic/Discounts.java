@@ -52,6 +52,8 @@ public class Discounts {
                 } catch (NumberFormatException e) {
                 }
             }
+
+            output = addPrice(output, shipmentPrices);
         }
         return outputs;
     }
@@ -116,6 +118,20 @@ public class Discounts {
             output.setDiscount("-");
         }
         return output;
+    }
+
+    public static Output addPrice(Output output, ArrayList<ShipmentPrice> shipmentPrices) {
+        Double providersPrise = getprovidersPriceBySize(output.getCarrier(), output.getPackageSize(),
+                shipmentPrices);
+
+        try {
+            double discount = Double.parseDouble(output.getDiscount());
+            output.setPrice(providersPrise - discount);
+        } catch (NumberFormatException e) {
+            output.setPrice(providersPrise);
+        }
+        return output;
+
     }
 
     public static Double round(Double value, int places) {

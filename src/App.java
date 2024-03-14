@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 import logic.CheckFormat;
 import logic.Discounts;
+import logic.Prices;
 import logic.Print;
 import logic.ReadFile;
 import model.Output;

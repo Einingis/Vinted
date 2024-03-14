@@ -9,8 +9,8 @@ public class Print {
         for (int i = 0; i < outputs.size(); i++) {
             Output output = outputs.get(i);
             System.out.println(
-                    String.format("%s %s %s %s ", output.getDate(), output.getPackageSize(),
-                            output.getCarrier(), output.getDiscount()).replaceAll("\\s{2,}", " "));
+                    String.format("%s %s %s %s %s ", output.getDate(), output.getPackageSize(),
+                            output.getCarrier(), output.getPrice(), output.getDiscount()).replaceAll("\\s{2,}", " "));
         }
     }
 }
