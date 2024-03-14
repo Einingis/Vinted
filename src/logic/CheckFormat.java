@@ -4,42 +4,39 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
-import model.Input;
+import model.Output;
 import model.ShipmentPrice;
 
 public class CheckFormat {
-    public static void checkFormat(Input input, ArrayList<ShipmentPrice> shipmentPrices) {
-        if (checkDate(input.getDate()) == false || checkCarrierandSize(input, shipmentPrices) == false) {
-            System.out.println(
-                    String.format("%s %s %s ignored", input.getDate(), input.getPackageSize(),
-                            input.getCarrier()).replaceAll("\\s{2,}", " "));
-        } else {
-            System.out.println(
-                    String.format("%s %s %s", input.getDate(), input.getPackageSize(),
-                            input.getCarrier()).replaceAll("\\s{2,}", " "));
+    public static ArrayList<Output> checkFormat(ArrayList<Output> outputs, ArrayList<ShipmentPrice> shipmentPrices) {
+        for (int i = 0; i < outputs.size(); i++) {
+            Output output = outputs.get(i);
+            if (checkDate(output.getDate()) == false || checkCarrierandSize(output, shipmentPrices) == false) {
+                output.setDiscount("ignored");
+                outputs.set(i, output);
+            }
         }
+        return outputs;
     }
 
-    public static boolean checkDate(String inputDate) {
+    public static boolean checkDate(String outputDate) {
         try {
-            LocalDate.parse(inputDate);
+            LocalDate.parse(outputDate);
             return true;
         } catch (DateTimeParseException e) {
             return false;
         }
     }
 
-    public static boolean checkCarrierandSize(Input input, ArrayList<ShipmentPrice> shipmentPrices) {
-
+    public static boolean checkCarrierandSize(Output output, ArrayList<ShipmentPrice> shipmentPrices) {
         for (int i = 0; i < shipmentPrices.size(); i++) {
             ShipmentPrice shipmentPrice = shipmentPrices.get(i);
-            if (shipmentPrice.getProvider().equals(input.getCarrier())) {
-                if (shipmentPrice.getPackageSize().equals(input.getPackageSize())) {
+            if (shipmentPrice.getProvider().equals(output.getCarrier())) {
+                if (shipmentPrice.getPackageSize().equals(output.getPackageSize())) {
                     return true;
                 }
             }
         }
-
         return false;
     }
 }

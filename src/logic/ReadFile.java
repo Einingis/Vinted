@@ -5,38 +5,41 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import model.Input;
+import model.Output;
 import model.ShipmentPrice;
 
 public class ReadFile {
-    public static void readInput(String filepath) {
+    public static ArrayList<Output> readInput(String filepath) {
+        ArrayList<Output> outputs = new ArrayList<>();
         try {
             Scanner scanner = new Scanner(new File(filepath));
 
             while (scanner.hasNextLine()) {
                 String[] splited = scanner.nextLine().split(" ");
-                Input input = new Input("", "", "");
+                Output output = new Output("", "", "", 0.0, "");
                 for (int i = 0; i < splited.length; i++) {
                     switch (i) {
                         case 0:
-                            input.setDate(splited[i]);
+                            output.setDate(splited[i]);
                             break;
                         case 1:
-                            input.setPackageSize(splited[i]);
+                            output.setPackageSize(splited[i]);
                             break;
                         case 2:
-                            input.setCarrier(splited[i]);
+                            output.setCarrier(splited[i]);
                             break;
                         default:
+                            output.setCarrier(String.format("%s %s", output.getCarrier(), splited[i]));
                             break;
                     }
                 }
-                CheckFormat.checkFormat(input, readPrices());
+                outputs.add(output);
             }
             scanner.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        return outputs;
     }
 
     public static ArrayList<ShipmentPrice> readPrices() {
