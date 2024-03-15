@@ -1,8 +1,7 @@
 import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-
-import org.junit.jupiter.api.Test;
 
 import logic.Discounts;
 import model.ShipmentPrice;
