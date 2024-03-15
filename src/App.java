@@ -11,7 +11,7 @@ import model.ShipmentPrice;
 public class App {
     public static void main(String[] args) throws Exception {
 
-        ArrayList<Output> outputs = ReadFile.readInput(args[0]);
+        ArrayList<Output> outputs = ReadFile.readInput("input.txt");
         ArrayList<ShipmentPrice> shipmentPrices = ReadFile.readPrices();
         outputs = CheckFormat.checkFormat(outputs, shipmentPrices);
         outputs = Discounts.giveDiscounts(outputs, shipmentPrices);

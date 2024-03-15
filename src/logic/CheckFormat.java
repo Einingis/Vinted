@@ -31,10 +31,9 @@ public class CheckFormat {
     public static boolean checkCarrierandSize(Output output, ArrayList<ShipmentPrice> shipmentPrices) {
         for (int i = 0; i < shipmentPrices.size(); i++) {
             ShipmentPrice shipmentPrice = shipmentPrices.get(i);
-            if (shipmentPrice.getProvider().equals(output.getCarrier())) {
-                if (shipmentPrice.getPackageSize().equals(output.getPackageSize())) {
-                    return true;
-                }
+            if (shipmentPrice.getProvider().equals(output.getCarrier())
+                    && shipmentPrice.getPackageSize().equals(output.getPackageSize())) {
+                return true;
             }
         }
         return false;

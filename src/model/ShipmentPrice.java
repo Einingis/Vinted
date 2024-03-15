@@ -1,7 +1,6 @@
 package model;
 
 public class ShipmentPrice {
-
     private String provider;
     private String packageSize;
     private Double price;

@@ -38,7 +38,7 @@ public class Discounts {
         return outputs;
     }
 
-    private static void checkMonth(int month) {
+    public static void checkMonth(int month) {
         if (currentMonth != month) {
             largeCounter = 1;
             currentMonth = month;
@@ -47,12 +47,12 @@ public class Discounts {
         }
     }
 
-    private static int getMonth(String date) {
+    public static int getMonth(String date) {
         LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ISO_DATE);
         return localDate.getMonthValue();
     }
 
-    private static Output smallPrice(Output output, ShipmentPrice shipmentPrice,
+    public static Output smallPrice(Output output, ShipmentPrice shipmentPrice,
             ArrayList<ShipmentPrice> shipmentPrices) {
         if (output.getCarrier().equals(shipmentPrice.getProvider())) {
             output.setDiscount("-");
@@ -65,7 +65,7 @@ public class Discounts {
         }
     }
 
-    private static Double getprovidersPriceBySize(String provider, String packageSize,
+    public static Double getprovidersPriceBySize(String provider, String packageSize,
             ArrayList<ShipmentPrice> shipmentPrices) {
         for (int i = 0; i < shipmentPrices.size(); i++) {
             if (shipmentPrices.get(i).getProvider().equals(provider)
@@ -77,7 +77,7 @@ public class Discounts {
         return 0.0;
     }
 
-    private static ShipmentPrice getSmallCheapest(ArrayList<ShipmentPrice> shipmentPrices) {
+    public static ShipmentPrice getSmallCheapest(ArrayList<ShipmentPrice> shipmentPrices) {
         ShipmentPrice shipmentPrice = new ShipmentPrice(null, null, 0.0);
         for (int i = 0; i < shipmentPrices.size(); i++) {
             if (shipmentPrices.get(i).getPackageSize().equals("S")) {
@@ -90,7 +90,7 @@ public class Discounts {
         return shipmentPrice;
     }
 
-    private static Output largeDiscount(Output output, ArrayList<ShipmentPrice> shipmentPrices) {
+    public static Output largeDiscount(Output output, ArrayList<ShipmentPrice> shipmentPrices) {
         int month = getMonth(output.getDate());
         if (currentMonth == month && discountUsed == false) {
             largeCounter++;
