@@ -8,7 +8,7 @@ import logic.ReadFile;
 import model.Output;
 import model.ShipmentPrice;
 
-public class App {
+public class Vinted {
     public static void main(String[] args) throws Exception {
 
         ArrayList<Output> outputs = ReadFile.readInput("input.txt");
