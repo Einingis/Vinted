@@ -45,7 +45,7 @@ public class ReadFile {
     public static ArrayList<ShipmentPrice> readPrices() {
         ArrayList<ShipmentPrice> shipmentPrices = new ArrayList<>();
         try {
-            Scanner scanner = new Scanner(new File("src\\shpiment.txt"));
+            Scanner scanner = new Scanner(new File("shpiment.txt"));
 
             while (scanner.hasNextLine()) {
                 String[] splited = scanner.nextLine().split(" ");

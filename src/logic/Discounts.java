@@ -13,49 +13,38 @@ public class Discounts {
     static int largeCounter = 0;
     static int currentMonth = 0;
     static Boolean discountUsed = false;
+    static Double monthsDiscount = 0.0;
 
     public static ArrayList<Output> giveDiscounts(ArrayList<Output> outputs, ArrayList<ShipmentPrice> shipmentPrices) {
         ShipmentPrice shipmentPrice = getSmallCheapest(shipmentPrices);
-
-        Double monthsDiscount = 0.0;
         for (int i = 0; i < outputs.size(); i++) {
             Output output = outputs.get(i);
 
             if (output.getDiscount().equals("")) {
-                int month = getMonth(output.getDate());
-                if (currentMonth != month) { // maybe new function here
-                    largeCounter = 1;
-                    currentMonth = month;
-                    discountUsed = false;
-                    monthsDiscount = 0.0;
-                }
+                checkMonth(getMonth(output.getDate()));
                 if (output.getPackageSize().equals("S")) {
                     output = smallPrice(output, shipmentPrice, shipmentPrices);
-                } else if (output.getPackageSize().equals("L") && output.getCarrier().equals("LP")) {
+                } else if (output.getPackageSize().equals("L") &&
+                        output.getCarrier().equals("LP")) {
                     output = largeDiscount(output, shipmentPrices);
                 } else {
                     output.setDiscount("-");
                 }
-
-                try { // move this to new function and maybe break it apart
-                    double discount = Double.parseDouble(output.getDiscount());
-                    monthsDiscount += discount;
-                    if (monthsDiscount > 10) {
-                        double newDiscount = Double.parseDouble(output.getDiscount()) - (monthsDiscount - 10);
-                        if (newDiscount < 0.0) {
-                            output.setDiscount("-");
-                        } else {
-                            output.setDiscount(Double.toString(round(newDiscount, 2)));
-                        }
-
-                    }
-                } catch (NumberFormatException e) {
-                }
             }
+            output = discountLimit(output);
 
             output = addPrice(output, shipmentPrices);
         }
         return outputs;
+    }
+
+    private static void checkMonth(int month) {
+        if (currentMonth != month) {
+            largeCounter = 1;
+            currentMonth = month;
+            discountUsed = false;
+            monthsDiscount = 0.0;
+        }
     }
 
     private static int getMonth(String date) {
@@ -141,5 +130,23 @@ public class Discounts {
         BigDecimal bd = BigDecimal.valueOf(value);
         bd = bd.setScale(places, RoundingMode.HALF_UP);
         return bd.doubleValue();
+    }
+
+    public static Output discountLimit(Output output) {
+        try {
+            double discount = Double.parseDouble(output.getDiscount());
+            monthsDiscount += discount;
+            if (monthsDiscount > 10) {
+                double newDiscount = Double.parseDouble(output.getDiscount()) - (monthsDiscount - 10);
+                if (newDiscount < 0.0) {
+                    output.setDiscount("-");
+                } else {
+                    output.setDiscount(Double.toString(round(newDiscount, 2)));
+                }
+
+            }
+        } catch (NumberFormatException e) {
+        }
+        return output;
     }
 }
